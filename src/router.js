@@ -1,13 +1,15 @@
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
-import Home from './components/Home';
+import Home from './pages/Home';
+
 import ArtistMain from './components/artists/ArtistMain';
+import MarketMain from './pages/MarketMain';
 
 const componentRoutes = {
   component: Home,
   path: '/',
-  indexRoute: { component: ArtistMain },
+  indexRoute: { component: MarketMain },
   childRoutes: [
     {
       path: 'artists/new',

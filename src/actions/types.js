@@ -8,3 +8,5 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const SELECT_ARTIST = 'SELECT_ARTIST';
 export const DESELECT_ARTIST = 'DESELECT_ARTIST';
 export const RESET_SELECTION = 'RESET_SELECTION';
+
+export const CREATE_MARKET = 'CREATE_MARKET';
