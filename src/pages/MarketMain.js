@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux'
-import {createMarket} from '../actions/'
+import {connect} from 'react-redux';
+import {createMarket, fetchMarket} from '../actions/'
 
 class MarketMain extends Component {
+
+componentWillMount(){
+  this.props.fetchMarket();
+}
+
+
 handleCreateMarket(){
   const marketData = {
     location:'Sacramento',
@@ -21,4 +27,10 @@ handleCreateMarket(){
   }
 }
 
-export default connect(null,{createMarket})(MarketMain);
+const mapStateToProps = (state) =>{
+  return {
+        marketData:state.Market
+  }
+}
+
+export default connect(mapStateToProps,{createMarket,fetchMarket})(MarketMain);

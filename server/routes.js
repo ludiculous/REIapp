@@ -1,4 +1,5 @@
-const Market = require('./controllers/MarketController')
+const Market = require('./controllers/MarketController');
+const Authentication = require('./controllers/AuthenticationController');
 
 module.exports = (app)=>{
     app.get('/testapi',(req,res)=>{
@@ -6,6 +7,11 @@ module.exports = (app)=>{
           msg:'connected routes'
         });
     })
-    app.post('/MarketCreate', Market.create);
+
+app.get('/fetchMarket', Market.fetch);
+app.post('/MarketCreate', Market.create);
+
+app.post('/signup',Authentication.signup);
+
 
 }

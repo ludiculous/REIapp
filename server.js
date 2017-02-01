@@ -4,6 +4,7 @@ const config = require('./server/config');
 const mongoose = require('mongoose');
 const routes = require('./server/routes')
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -17,6 +18,7 @@ if(process.env.NODE_ENV !== 'test'){
 
 
 // Middleware
+app.use(morgan('combined'))
 app.use(bodyParser.json());
 routes(app);
 /*
@@ -36,4 +38,9 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 module.exports = app;
-app.listen(process.env.PORT || 3050, () => console.log('Listening'));
+if(process.env.NODE_ENV !== 'test'){
+  app.listen(process.env.PORT || 3050, () => console.log('Listening'));
+}
+else{
+  app.listen(8080,()=>console.log('Listening on Testing Server'))
+}

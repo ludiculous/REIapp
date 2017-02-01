@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-const db = require('../../database/queries/db');
+import {connect} from 'react-redux';
+import {authenticate} from '../actions'
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { id: null };
-  }
 
   componentWillMount() {
-    this.setLink();
+    console.log(this.props.Authenticated)
   }
 
-  setLink() {
-    const index = _.random(0, db.length);
-    this.setState({ id: index });
+  renderAuthButton(){
+    if(this.props.Authenticated){
+      return (<button onClick={()=>{this.props.authenticate(false)}}>
+      Sign Out
+      </button>)
+    }
+    else {
+      return(<button onClick={()=>{this.props.authenticate(true)}}>
+        Log In
+      </button>)
+    }
   }
+
+handleAuthenticate(){
+
+  this.props.authenticate()
+}
 
   render() {
     return (
@@ -24,20 +33,23 @@ class Header extends Component {
         <nav>
           <div className="nav-wrapper">
             <div className="col s12">
-              <a href="#" className="brand-logo">UpStar Music</a>
+              <a href="#" className="brand-logo">Real Estate App</a>
               <ul id="nav-mobile" className="right hide-on-med-and-down">
                 <li>
                   <Link
-                    to={`/artists/${this.state.id}`}
-                    onClick={this.setLink.bind(this)}
+                    to={'/market/analysis'}
+
                   >
-                    Random Artist
+                  Market Analysis
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/artists/new'}>
-                    Create Artist
+                  <Link to={'/RECalc'}>
+                  Real Estate Calculator
                   </Link>
+                </li>
+                <li>
+                {this.renderAuthButton()}
                 </li>
               </ul>
             </div>
@@ -48,4 +60,10 @@ class Header extends Component {
   }
 };
 
-export default Header;
+const mapStateToProps=(state)=>{
+    return{
+      Authenticated:state.Authenticate.loggedIn
+    }
+}
+
+export default  connect(mapStateToProps,{authenticate}) (Header);
