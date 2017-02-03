@@ -10,10 +10,10 @@ export const fetchMarket = ()=>{
           type: FETCH_MARKET,
           payload: res.marketData
         })
-        .catch(err =>{
-          console.log(err)
+
+      }).catch(err =>{
+            console.log(err)
         })
-      })
   }
 
 }

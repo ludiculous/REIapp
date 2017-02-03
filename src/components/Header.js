@@ -1,30 +1,34 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import {connect} from 'react-redux';
-import {authenticate} from '../actions'
+import {signoutUser} from '../actions'
 
 class Header extends Component {
 
   componentWillMount() {
     console.log(this.props.Authenticated)
   }
+  componentWillUpdate(){
+    console.log(this.props.Authenticated)
+  }
+
 
   renderAuthButton(){
-    if(this.props.Authenticated){
-      return (<button onClick={()=>{this.props.authenticate(false)}}>
-      Sign Out
-      </button>)
+    if(this.props.Authenticated.authenticated){
+      return (
+      <li className="authBtn" onClick={()=>{this.props.signoutUser()}}> <Link to={'/SignOut'}>Sign Out</Link></li>
+      )
     }
     else {
-      return(<button onClick={()=>{this.props.authenticate(true)}}>
-        Log In
-      </button>)
+      return([
+        <li><Link to={'/SignIn'} >Log In</Link>  </li>,
+        <li>  <Link to={'/SignUp'} >Sign Up</Link></li>
+    ])
     }
   }
 
 handleAuthenticate(){
-
-  this.props.authenticate()
+  console.log(this.props.Authenticate.authenticated)
 }
 
   render() {
@@ -48,9 +52,9 @@ handleAuthenticate(){
                   Real Estate Calculator
                   </Link>
                 </li>
-                <li>
+
                 {this.renderAuthButton()}
-                </li>
+
               </ul>
             </div>
           </div>
@@ -62,8 +66,8 @@ handleAuthenticate(){
 
 const mapStateToProps=(state)=>{
     return{
-      Authenticated:state.Authenticate.loggedIn
+      Authenticated:state.Authenticate
     }
 }
 
-export default  connect(mapStateToProps,{authenticate}) (Header);
+export default  connect(mapStateToProps,{signoutUser}) (Header);

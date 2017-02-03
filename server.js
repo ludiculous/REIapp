@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
 
+
 mongoose.Promise = global.Promise;
 if(process.env.NODE_ENV !== 'test'){
   mongoose.connect(config.database)
@@ -21,11 +22,11 @@ if(process.env.NODE_ENV !== 'test'){
 app.use(morgan('combined'))
 app.use(bodyParser.json());
 routes(app);
-/*
+
 app.use((err,req,res,next)=>{
     res.status(422).send({error:err.message});
 });
-*/
+
 if (process.env.NODE_ENV !== 'production') {
   const webpackMiddleware = require('webpack-dev-middleware');
   const webpack = require('webpack');
