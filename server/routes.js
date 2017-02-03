@@ -11,9 +11,9 @@ const requireSignin = passport.authenticate('local',{session:false});
 
 module.exports = (app)=>{
 
-    app.get('/testapi',(req,res)=>{
+    app.get('/api',requireAuth,(req,res)=>{
         res.send({
-          msg:'connected routes'
+          msg:'SuperSecret'
         });
     })
 

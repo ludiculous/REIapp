@@ -28,7 +28,7 @@ export default (ComposedComponent)=>{
   }
 const mapStateToProps = (state)=>{
   return {
-  Authenticated:state.Authenticate.loggedIn
+  Authenticated:state.Authenticate.authenticated
   }
 }
 
