@@ -7,6 +7,7 @@ import authenticator from './components/require_authentication';
 import SignInForm from './components/signinForm';
 import SignUpForm from './components/signupForm';
 import SignOut from './components/signout';
+import ZillowHS from './components/Market/ZHomeSearchForm';
 
 const componentRoutes = {
   component: Home,
@@ -30,6 +31,7 @@ const Routes = () => {
             <Route path="SignIn" component={SignInForm} />
             <Route path="SignUp" component={SignUpForm} />
             <Route path="SignOut" component={SignOut} />
+            <Route path="market/analysis" component={ZillowHS} />
             <Route path="RECalc" component={authenticator(RECalc)}/>
         </Route>
     </Router>

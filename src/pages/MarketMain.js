@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createMarket, fetchMarket} from '../actions/'
+import {createMarket, fetchMarket,fetchZillowHome} from '../actions/'
 
 class MarketMain extends Component {
 
@@ -17,11 +17,17 @@ handleCreateMarket(){
   this.props.createMarket(marketData);
 }
 
+handleFetchZillowHome(){
+  this.props.fetchZillowHome()
+}
+
 
   render(){
     return(
       <div>
       <button onClick={this.handleCreateMarket.bind(this)}>Create Market On Mongo</button>
+      <button onClick={this.handleFetchZillowHome.bind(this)}>Get Zillow Info</button>
+
       </div>
     )
   }
@@ -33,4 +39,4 @@ const mapStateToProps = (state) =>{
   }
 }
 
-export default connect(mapStateToProps,{createMarket,fetchMarket})(MarketMain);
+export default connect(mapStateToProps,{createMarket,fetchMarket,fetchZillowHome})(MarketMain);
