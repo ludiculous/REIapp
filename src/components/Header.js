@@ -37,7 +37,7 @@ handleAuthenticate(){
         <nav>
           <div className="nav-wrapper">
             <div className="col s12">
-              <a href="#" className="brand-logo">Real Estate App</a>
+              <a href="#" className="brand-logo">Real Essential Estate </a>
               <ul id="nav-mobile" className="right hide-on-med-and-down">
                 <li>
                   <Link

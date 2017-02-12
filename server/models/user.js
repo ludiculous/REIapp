@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
+const ZillowQuerySchema = require('./zillowQuery');
 
 const userSchema = new Schema({
   email:{type:String,  unique:true,  lowercase:true},
-  password: String
+  password: String,
+  ZillowHomeCount:Number,
+  ZillowHomeQueries:[ZillowQuerySchema]
+  //subdocument
 });
 
 //on save hook

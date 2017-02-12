@@ -32,6 +32,9 @@ module.exports = (app)=>{
 app.get('/fetchMarket', Market.fetch);
 app.post('/MarketCreate', Market.create);
 
+app.post('/api/ZillowHomeSearch',Zillow.SearchHome);
+
+
 app.post('/signin', requireSignin, Authentication.signin);
 app.post('/signup',Authentication.signup);
 

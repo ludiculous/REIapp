@@ -1,42 +1,55 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Field, reduxForm, formValueSelector} from 'redux-form';
+import {Field, reduxForm} from 'redux-form';
 import {fetchZillowHome,createZHS} from '../../actions';
 import StatesData from './states.json';
 import  _ from 'lodash'
+import PropertyGrid from '../Investing/DataTable';
 import { FETCH_ZILLOW_HOME, CREATE_ZILLOW_HOME_SEARCH} from '../../actions/types';
 
 
 class ZHomeSearchForm extends Component {
-  handleFormSubmit({address, state}){
-    console.log(address + state)
+
+  handleFormSubmit({address, city, state}){
+    console.log({address, city, state})
+  this.props.createZHS({address, city, state});
+  }
+  componentWillUpdate(){
+    console.log(this.props.Market)
+
   }
 
-componentWillUpdate(){
-  console.log(this.props)
-}
 
           render(){
-              const {handleSubmit,errors,touched} = this.props;
-
+              const {handleSubmit,errors,touched,Market} = this.props;
+              console.log(Market)
               return(
+                <div className="ZSearchContainer">
                   <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))} className="ZhomeSearchForm">
                       <fieldset>
                           <Field label="Address" name="address"  type="text" component={renderField} placeholder="1234 Street"/>
                       </fieldset>
 
                       <fieldset>
+                          <Field label="City" name="city"  type="text" component={renderField} placeholder="City"/>
+                      </fieldset>
 
+                      <fieldset>
                       <label>State</label>
                       <Field name="state" component="select">
                         <option key="0"></option>
                           {renderStateOptions()}
                     </Field>
-
+                      <span>{Market.zillowSearchError}</span>
                       </fieldset>
 
                       <input type="submit" value="Search" className="submitBtn" />
+
                   </form>
+
+                  <PropertyGrid />
+
+                    </div>
               )
           }
   }
@@ -72,9 +85,9 @@ const renderStateError = (err)=>{
 
   const validate = values => {
   const errors = {}
-console.log(values)
-  if(!values.address||!values.state){
-  errors.address = 'Please Enter a Valid Address & State';
+
+  if(!values.address||!values.state||!values.city){
+  errors.city = 'Please Enter a Valid Address, City & State';
   }
 
 
@@ -83,11 +96,10 @@ console.log(values)
 
 
 
-const selector = formValueSelector('ZHomeSearchForm')
 
   const mapStateToProps = (state)=>{
     return {
-      stateData: selector(state,'state')
+        Market: state.Market
     }
   }
 
@@ -98,7 +110,7 @@ ZHomeSearchForm = reduxForm({
   validate,
   })(ZHomeSearchForm);
 
-ZHomeSearchForm = connect(mapStateToProps, {} )(ZHomeSearchForm);
+ZHomeSearchForm = connect(mapStateToProps, {createZHS} )(ZHomeSearchForm);
 
 
 export default  ZHomeSearchForm ;

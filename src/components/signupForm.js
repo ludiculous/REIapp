@@ -109,6 +109,7 @@ SignUpForm = reduxForm({
   form: 'signup',
   validate,
 })(SignUpForm);
+
 SignUpForm = connect(mapStateToProps,{signupUser})(SignUpForm);
 
 

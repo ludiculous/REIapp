@@ -113,3 +113,18 @@ input.submitBtn{
   margin-top: 30px;
 }
 
+th.DataTableHeaderItem{
+  font-size:12px;
+  font-family: "Roboto", sans-serif;
+}
+
+table.DataTable{
+  margin-top: 60px;
+}
+.DataTaleItem{
+
+}
+
+td,th{
+  border: 1px solid #d0d0d0;
+}

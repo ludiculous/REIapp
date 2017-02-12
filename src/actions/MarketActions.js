@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {CREATE_MARKET, FETCH_MARKET, FETCH_ZILLOW_HOME} from './types';
+import {CREATE_MARKET, FETCH_MARKET, FETCH_ZILLOW_HOME, CREATE_ZILLOW_HOME_SEARCH,CREATE_ZILLOW_HOME_SEARCH_ERROR} from './types';
 
 export const fetchMarket = ()=>{
   return (dispatch) =>{
@@ -64,18 +64,61 @@ export const fetchZillowHome = ()=>{
 }
 
 
-export const createZHS = ()=>{
+export const createZHS = (ZHSData)=>{
   return (dispatch)=>{
-      axios.post('/api/zillowSearch')
-      .then((res)=>{
-        const Jres = res.data.results;
-        dispatch({
-          type: CREATE_ZILLOW_HOME_SEARCH,
-          payload: Jres
+      axios(
+        {
+          method:'post',
+          url:  '/api/ZillowHomeSearch',
+          data:ZHSData
         })
+      .then((res)=>{
+        const Zillowdata = res.data.results;
+
+        let lastSoldDate = "";
+        if(typeof Zillowdata.lastSoldDate !== 'undefined'){
+          lastSoldDate = Zillowdata.lastSoldDate
+        }
+        let lastSoldAmount = "";
+        if(typeof Zillowdata.lastSoldAmount !== 'undefined'){
+          lastSoldAmount = Zillowdata.lastSoldAmount;
+        }
+
+        const ZMD =   {
+            propertyID:Zillowdata.zpid || "NA",
+            Address:Zillowdata.address.street || "NA",
+            City: Zillowdata.address.city || "NA",
+            State: Zillowdata.address.state || "NA",
+            ZipCode:  Zillowdata.address.zipcode || "NA",
+            Room: Zillowdata.bedrooms || "NA",
+            Bath: Zillowdata.bathrooms || "NA",
+            AskingPrice: Zillowdata.localRealEstate.region.zindexValue || "NA",
+            MarketValue: Zillowdata.zestimate.amount['$t'] || "NA",
+            LastSoldDate: lastSoldDate,
+            LastSoldAmount: lastSoldAmount,
+            YearBuilt: Zillowdata.yearBuilt || "NA",
+            SqFootage:Zillowdata.lotSizeSqFt || "NA",
+            UseCode: Zillowdata.useCode || "NA"
+          }
+
+
+        console.log(ZMD)
+        if(typeof ZMD.propertyID !== 'undefined'){
+          console.log('dispatched!')
+            dispatch({
+              type: CREATE_ZILLOW_HOME_SEARCH,
+              payload: ZMD
+            })
+        }
+
+
       })
       .catch(err=>{
-        console.log(err)
+        console.log(err);
+          dispatch({
+            type: CREATE_ZILLOW_HOME_SEARCH_ERROR,
+            payload: 'Search Inputs Incorrectly Formatted'
+          })
       })
   }
 }
