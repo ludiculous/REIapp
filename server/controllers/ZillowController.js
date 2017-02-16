@@ -47,23 +47,6 @@ module.exports = {
                       Zillowdata = json['SearchResults:searchresults']["response"]["results"]["result"]
 
 
-                    const myFields = [
-                      "propertyID",
-                      "Address",
-                      "City",
-                      "State",
-                      "ZipCode",
-                      "Room",
-                      "Bath",
-                      "AskingPrice",
-                      "MarketValue",
-                      "LastSoldDate",
-                      "LastSoldAmount",
-                      "YearBuilt",
-                      "SqFootage",
-                      "UseCode"
-                    ]
-
 
                     //for every data object which calls this function
                     //push it into ZMD
@@ -77,33 +60,6 @@ module.exports = {
                                       lastSoldAmount = Zillowdata.lastSoldAmount;
                                     }
 
-
-                                    const ZMD = [
-                                      {
-                                        propertyID:Zillowdata.zpid || "NA",
-                                        Address:Zillowdata.address.street || "NA",
-                                        City: Zillowdata.address.city || "NA",
-                                        State: Zillowdata.address.state || "NA",
-                                        ZipCode:  Zillowdata.address.zipcode || "NA",
-                                        Room: Zillowdata.bedrooms || "NA",
-                                        Bath: Zillowdata.bathrooms || "NA",
-                                        AskingPrice: Zillowdata.localRealEstate.region.zindexValue || "NA",
-                                        MarketValue: Zillowdata.zestimate.amount['$t'] || "NA",
-                                        LastSoldDate: lastSoldDate,
-                                        LastSoldAmount: lastSoldAmount,
-                                        YearBuilt: Zillowdata.yearBuilt || "NA",
-                                        SqFootage:Zillowdata.lotSizeSqFt || "NA",
-                                        UseCode: Zillowdata.useCode || "NA"
-                                      }
-                                    ]
-
-                                const currTime = Date.now();
-                                const csv = json2csv({ data: ZMD, fields: myFields });
-
-                                fs.writeFile(`csv/ZMD${currTime}.csv`, csv, function(err) {
-                                  if (err) throw err;
-                                  console.log('file saved');
-                                });
 /* to remove Directory
                         const removeDir = function(dirPath) {
                               try { var files = fs.readdirSync(dirPath); }
@@ -141,9 +97,65 @@ module.exports = {
     //end of request
 
 
-  }
+  },
 //end of  ZHS
 
+CreateCSV(req,res,next){
+
+const Zillowdata = req.body
+console.log(req);
+console.log(Zillowdata)
+/*  const ZMD = [
+    {
+      propertyID:Zillowdata.zpid || "NA",
+      Address:Zillowdata.address.street || "NA",
+      City: Zillowdata.address.city || "NA",
+      State: Zillowdata.address.state || "NA",
+      ZipCode:  Zillowdata.address.zipcode || "NA",
+      Room: Zillowdata.bedrooms || "NA",
+      Bath: Zillowdata.bathrooms || "NA",
+      AskingPrice: Zillowdata.localRealEstate.region.zindexValue || "NA",
+      MarketValue: Zillowdata.zestimate.amount['$t'] || "NA",
+      LastSoldDate: lastSoldDate,
+      LastSoldAmount: lastSoldAmount,
+      YearBuilt: Zillowdata.yearBuilt || "NA",
+      SqFootage:Zillowdata.lotSizeSqFt || "NA",
+      UseCode: Zillowdata.useCode || "NA"
+    }
+  ]*/
+
+
+  const myFields = [
+    "propertyID",
+    "Address",
+    "City",
+    "State",
+    "ZipCode",
+    "Room",
+    "Bath",
+    "AskingPrice",
+    "MarketValue",
+    "LastSoldDate",
+    "LastSoldAmount",
+    "YearBuilt",
+    "SqFootage",
+    "UseCode"
+  ]
+
+
+  const currTime = Date.now();
+  const csv = json2csv({ data: Zillowdata, fields: myFields });
+
+  fs.writeFile(`csv/ZMD${currTime}.csv`, csv, function(err) {
+    if (err) throw err;
+    console.log('file saved');
+  });
+
+res.send({
+  success:'File Was Saved'
+})
+
+}
 
 
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 //import ReactDataGrid from 'react-data-grid';
+import {removeZHSrow} from '../../actions';
 import _ from 'lodash';
 //import ReactGridLayout from 'react-grid-layout'
 //import { render } from 'react-dom';
@@ -68,6 +69,7 @@ class DataTable extends Component {
     }
     renderColumns(){
       const myFields = [
+
         "propertyID",
         "Address",
         "City",
@@ -81,7 +83,8 @@ class DataTable extends Component {
         "LastSoldAmount",
         "YearBuilt",
         "SqFootage",
-        "UseCode"
+        "UseCode",
+        "",
       ]
 
     return   _.map(myFields,(fields,index)=>{
@@ -91,10 +94,21 @@ class DataTable extends Component {
       })
 
     }
+
+  handleDeleteZHSRow(index){
+    console.log(this.props.Market.zillowHomes.propertyID);
+
+    const ZHSindex = index;
+    console.log(index);
+    this.props.removeZHSrow(index);
+  }
+
     renderTableData(){
       return _.map(this.props.Market.zillowHomes,(zData,index)=>{
 
       return (
+
+
         <tr key={index} className="DataTableRow">
           <td className="DataTableItem">{zData.propertyID}</td>
           <td className="DataTableItem">{zData.Address}</td>
@@ -110,7 +124,9 @@ class DataTable extends Component {
           <td className="DataTableItem">{zData.YearBuilt}</td>
           <td className="DataTableItem">{zData.SqFootage}</td>
           <td className="DataTableItem">{zData.UseCode}</td>
+            <td className="delete-row-btn"  key={zData.propertyID} onClick={this.handleDeleteZHSRow.bind(this,index)}>Delete Row</td>
         </tr>
+
       )
 
       })
@@ -144,4 +160,4 @@ const mapStateToProps = (state)=>{
 }
 
 
-export default  connect(mapStateToProps)(DataTable);
+export default  connect(mapStateToProps,{removeZHSrow})(DataTable);

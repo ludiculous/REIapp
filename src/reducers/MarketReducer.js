@@ -1,4 +1,9 @@
-import {FETCH_MARKET,FETCH_ZILLOW_HOME,CREATE_ZILLOW_HOME_SEARCH_ERROR,CREATE_ZILLOW_HOME_SEARCH} from '../actions/types';
+import {FETCH_MARKET,
+  FETCH_ZILLOW_HOME,
+  CREATE_ZILLOW_HOME_SEARCH_ERROR,
+  CREATE_ZILLOW_HOME_SEARCH,
+REMOVE_ZHS_ROW
+} from '../actions/types';
 const INITIAL_STATE = {
   marketList:[],
   zillowHomes:[],
@@ -19,6 +24,16 @@ export default (state = INITIAL_STATE, action)=>{
           zillowHomes:[
             ...state.zillowHomes,
                   action.payload
+                  ],
+        zillowSearchError:''
+        }
+        );
+
+        case REMOVE_ZHS_ROW:
+        return Object.assign({}, state, {
+          zillowHomes:[
+    ...state.zillowHomes.slice(0, action.payload),
+   ...state.zillowHomes.slice(action.payload + 1)
                   ],
         zillowSearchError:''
         }

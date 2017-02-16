@@ -1,5 +1,11 @@
 import axios from 'axios';
-import {CREATE_MARKET, FETCH_MARKET, FETCH_ZILLOW_HOME, CREATE_ZILLOW_HOME_SEARCH,CREATE_ZILLOW_HOME_SEARCH_ERROR} from './types';
+import {CREATE_MARKET, FETCH_MARKET,
+   FETCH_ZILLOW_HOME,
+   CREATE_ZILLOW_HOME_SEARCH,
+   CREATE_ZILLOW_HOME_SEARCH_ERROR,
+REMOVE_ZHS_ROW,
+ZHS_TO_CSV
+ } from './types';
 
 export const fetchMarket = ()=>{
   return (dispatch) =>{
@@ -120,5 +126,32 @@ export const createZHS = (ZHSData)=>{
             payload: 'Search Inputs Incorrectly Formatted'
           })
       })
+  }
+}
+
+export  const  removeZHSrow = (ZHSindex)=>{
+  console.log(ZHSindex)
+  return (dispatch)=>{
+    dispatch({
+      type:REMOVE_ZHS_ROW,
+      payload: ZHSindex
+    })
+  }
+}
+
+export const zhs_to_csv = (ZHSdata)=>{
+  console.log(ZHSdata)
+  return(dispatch)=>{
+    axios({
+      method:'post',
+      url:'/api/ZHStoCSV',
+      data:ZHSdata
+    })
+    .then(res=>{
+      console.log(res)
+    })
+    .catch(err=>{
+      console.log(err);
+    })
   }
 }

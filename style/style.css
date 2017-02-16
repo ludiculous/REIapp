@@ -4,6 +4,7 @@ nav{
 
 nav .brand-logo{
   color: black;
+  font-size: 1.618rem;
 }
 
 nav ul a{
@@ -108,9 +109,12 @@ input.submitBtn{
   background: transparent;
   border: 2px solid black;
   padding: .5em 1.5em;
-  font-size: 1.618em;
+  font-size: 1em;
   text-transform: uppercase;
   margin-top: 30px;
+}
+input{
+  height: initial;
 }
 
 th.DataTableHeaderItem{
@@ -120,11 +124,37 @@ th.DataTableHeaderItem{
 
 table.DataTable{
   margin-top: 60px;
+  position:relative;
 }
 .DataTaleItem{
 
 }
+fieldset{
+  padding:5px 15px;
+}
 
 td,th{
   border: 1px solid #d0d0d0;
+}
+
+/*db table*/
+
+.delete-row-btn{
+  font-size:1em;
+  padding:.5em 1em;
+  border:1px solid tomato;
+
+}
+
+.delete-row-btn:hover{
+  cursor: pointer;
+}
+
+.save-csv-btn{
+text-transform: uppercase;
+border: 2px solid black;
+max-width: 150px;
+text-align: center;
+margin-top: 15px;
+padding: .5em 0px;
 }

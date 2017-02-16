@@ -33,6 +33,7 @@ app.get('/fetchMarket', Market.fetch);
 app.post('/MarketCreate', Market.create);
 
 app.post('/api/ZillowHomeSearch',Zillow.SearchHome);
+app.post('/api/ZHStoCSV',Zillow.CreateCSV);
 
 
 app.post('/signin', requireSignin, Authentication.signin);

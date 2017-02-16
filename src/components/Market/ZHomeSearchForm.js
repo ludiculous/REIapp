@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import {fetchZillowHome,createZHS} from '../../actions';
+import {fetchZillowHome,createZHS,zhs_to_csv} from '../../actions';
 import StatesData from './states.json';
 import  _ from 'lodash'
 import PropertyGrid from '../Investing/DataTable';
-import { FETCH_ZILLOW_HOME, CREATE_ZILLOW_HOME_SEARCH} from '../../actions/types';
+import { FETCH_ZILLOW_HOME, CREATE_ZILLOW_HOME_SEARCH,ZHS_TO_CSV} from '../../actions/types';
 
 
 class ZHomeSearchForm extends Component {
@@ -13,6 +13,17 @@ class ZHomeSearchForm extends Component {
   handleFormSubmit({address, city, state}){
     console.log({address, city, state})
   this.props.createZHS({address, city, state});
+  }
+
+  handleSaveCSV(){
+    this.props.zhs_to_csv(this.props.Market.zillowHomes);
+
+  }
+  renderCSVBtn(){
+    if(this.props.Market.zillowHomes.length>0){
+        return (  <div className="save-csv-btn" onClick={this.handleSaveCSV.bind(this)}>Save To CSV</div>)
+    }
+
   }
   componentWillUpdate(){
     console.log(this.props.Market)
@@ -46,8 +57,9 @@ class ZHomeSearchForm extends Component {
                       <input type="submit" value="Search" className="submitBtn" />
 
                   </form>
+                  {this.renderCSVBtn()}
 
-                  <PropertyGrid />
+                  <PropertyGrid  />
 
                     </div>
               )
@@ -110,7 +122,7 @@ ZHomeSearchForm = reduxForm({
   validate,
   })(ZHomeSearchForm);
 
-ZHomeSearchForm = connect(mapStateToProps, {createZHS} )(ZHomeSearchForm);
+ZHomeSearchForm = connect(mapStateToProps, {createZHS,zhs_to_csv} )(ZHomeSearchForm);
 
 
 export default  ZHomeSearchForm ;
