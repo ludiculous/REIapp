@@ -4,7 +4,8 @@ import {CREATE_MARKET, FETCH_MARKET,
    CREATE_ZILLOW_HOME_SEARCH,
    CREATE_ZILLOW_HOME_SEARCH_ERROR,
 REMOVE_ZHS_ROW,
-ZHS_TO_CSV
+ZHS_TO_CSV,
+ADD_MEDIAN_DATA
  } from './types';
 
 export const fetchMarket = ()=>{
@@ -86,8 +87,8 @@ export const createZHS = (ZHSData)=>{
           lastSoldDate = Zillowdata.lastSoldDate
         }
         let lastSoldAmount = "";
-        if(typeof Zillowdata.lastSoldAmount !== 'undefined'){
-          lastSoldAmount = Zillowdata.lastSoldAmount;
+        if(typeof Zillowdata.lastSoldPrice !== 'undefined'){
+          lastSoldAmount = Zillowdata.lastSoldPrice['$t'];
         }
 
         const ZMD =   {
@@ -141,7 +142,7 @@ export  const  removeZHSrow = (ZHSindex)=>{
 
 export const zhs_to_csv = (ZHSdata)=>{
   console.log(ZHSdata)
-  return(dispatch)=>{
+return (dispatch)=>{
     axios({
       method:'post',
       url:'/api/ZHStoCSV',
@@ -155,3 +156,104 @@ export const zhs_to_csv = (ZHSdata)=>{
     })
   }
 }
+
+export const zhs_add_median=(ZMdata)=>{
+  console.log(ZMdata)
+  return (dispatch)=>{
+    dispatch({
+      type:ADD_MEDIAN_DATA,
+      payload:ZMdata
+    })
+  }
+}
+
+
+export const calculate_avg = (props)=>{
+  const ZData = {
+    medianMValue:'',
+    medianSold:'',
+    medianSqFootage:'',
+    medianYOC:''
+  };
+
+  const ZHSdata = props.zillowHomes
+  const ZHSL = ZHSdata.length
+  console.log(props);
+    console.log('will mounted')
+    const MarketValue = ()=>{
+    const mvmSum = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+    return parseInt(zhs1.MarketValue)+ parseInt(zhs2.MarketValue);
+        })
+
+          console.log(mvmSum)
+          const mvm =  mvmSum/ZHSL;
+          console.log(mvm);
+          ZData.medianMValue = mvm
+
+      }
+      MarketValue();
+
+    const SoldPrice = ()=>{
+      const spSum = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+        return parseInt(zhs1.LastSoldAmount)+ parseInt(zhs2.LastSoldAmount);
+      })
+
+      console.log(spSum)
+      const spm =  spSum/ZHSL;
+      console.log(spm);
+      ZData.medianSold = spm;
+
+
+    }
+  SoldPrice();
+
+    const SqFootage = ()=>{
+      const sfsum  = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+        return parseInt(zhs1.SqFootage)+ parseInt(zhs2.SqFootage);
+      })
+
+      console.log(sfsum)
+      const sfm =  sfsum/ZHSL;
+      console.log(sfm);
+      ZData.medianYOC = sfm;
+
+    }
+  SqFootage();
+
+
+    const YOC = ()=>{
+      const YOCSum = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+        return parseInt(zhs1.YearBuilt)+ parseInt(zhs2.YearBuilt);
+      })
+
+      console.log(YOCSum)
+      const yocm =  YOCSum/ZHSL;
+      console.log(yocm);
+
+    ZData.medianYOC = yocm;
+
+    }
+
+  YOC();
+
+  console.log(props.zillowMedian);
+
+//  this.props.zhs_add_median(ZData);
+
+}
+
+
+
+
+
+
+/*
+export const zhs_remove_median=()=>{
+  return(dispatch)=>{
+    dispatch({
+      type:REMOVE_MEDIAN_DATA,
+      payload:""
+    })
+  }
+}
+*/

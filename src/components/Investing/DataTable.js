@@ -1,72 +1,23 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 //import ReactDataGrid from 'react-data-grid';
-import {removeZHSrow} from '../../actions';
+import {removeZHSrow,zhs_add_median} from '../../actions';
 import _ from 'lodash';
+
 //import ReactGridLayout from 'react-grid-layout'
 //import { render } from 'react-dom';
 //import { Grid } from 'react-redux-grid';
 
-
-
-
 //import propData from './property.js'
-
-
-const columns =  [
-  {width:'10%', dataIndex:'Address', name:'Address'},
-  {width:'10%', dataIndex:'City' ,name:'City'},
-  {width:'5%', dataIndex:'State', name:'State'},
-  {width:'7%', dataIndex:'ZipCode' ,name:'ZipCode'},
-  {width:'5%', dataIndex:'Room' ,name:'Room'},
-  {width:'5%', dataIndex:'Bath', name:'Bath'},
-  {width:'7%', dataIndex:'AskingPrice' ,name:'AskingPrice'},
-  {width:'7%', dataIndex:'MarketValue' ,name:'MarketValue'},
-  {width:'7%', dataIndex:'LastSoldDate', name:'LastSoldDate'},
-  {width:'7%', dataIndex:'LastSoldAmount', name:'LastSoldAmount'},
-  {width:'7%', dataIndex:'YearBuild', name:'YearBuilt'},
-  {width:'7%', dataIndex:'SqFootage', name:'SqFootage'},
-  {width:'7%', dataIndex:'UseCode', name:'UseCode'},
-  { width:'2%', dataIndex:'propertyID', name:'ID'}
-]
-const plugins = {
-    EDITOR: {
-        type: 'inline',
-        enabled: true,
-        focusOnEdit: true
-    }
-}
-
-const zData = {
-  columns,
-  data: [{
-    Address :"6839 Concert Way",
-    AskingPrice:"236,300",
-   Bath:"2.0",
-   City:"Sacramento",
-   LastSoldAmount:"",
-   LastSoldDate:"09/27/1999",
-   MarketValue:"306964",
-   Room:"4",
-   SqFootage:"5585",
-   State:"CA",
-   UseCode:"MultiFamily2To4",
-   YearBuilt:"1978",
-   ZipCode:"95842",
-   propertyID:"26004832"
-  }],
-  plugins:{},
-  emptyDataMessage:"No Data Available",
-  stateKey: 'zTable',
-  reducerKeys:{}
-};
 //     <Grid { ...zData } className="zData-table" />
 
 
 class DataTable extends Component {
     componentWillReceiveProps(){
       console.log(this.props.Market.zillowHomes)
+
     }
+
     renderColumns(){
       const myFields = [
 
@@ -103,6 +54,31 @@ class DataTable extends Component {
     this.props.removeZHSrow(index);
   }
 
+
+  renderZHSavg(){
+      return(
+                  <table  className="DataTable" style={{width:"100%"}}>
+                    <tbody className="DataTableBodyA">
+                          <tr>
+                            <td>Median Market Value: {}</td>
+                            <td>Median Sold Price:{}  </td>
+                            <td>Median SqFootage:{}  </td>
+                            <td>Median Year of Construction:{}  </td>
+                          </tr>
+                    </tbody>
+                  </table>
+                )
+      }
+
+
+
+  componentWillUpdate(nextProps){
+    if(!nextProps.Market.zillowMedian){
+      console.log(nextProps.Market.zillowMedian)
+    }
+
+}
+
     renderTableData(){
       return _.map(this.props.Market.zillowHomes,(zData,index)=>{
 
@@ -135,10 +111,8 @@ class DataTable extends Component {
 
        render() {
             console.log(this.props.Market.zillowHomes);
-
-
-
              return  (
+               <div className="data-table-container">
                   <table  className="DataTable" style={{width:"100%"}}>
                       <thead className="DataTableHeader">
                           <tr>
@@ -149,6 +123,9 @@ class DataTable extends Component {
                             {this.renderTableData()}
                       </tbody>
                   </table>
+
+
+                  </div>
                )
        }
 }

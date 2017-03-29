@@ -1,0 +1,4 @@
+propertyID,Address,City,State,ZipCode,Room,Bath,AskingPrice,MarketValue,LastSoldDate,LastSoldAmount,YearBuilt,SqFootage,UseCode
+25849610,7645 Mandy Dr,Sacramento,CA,95823,3,2,"213,900",250977,7/2/91,,1991,6577,SingleFamily
+122000128,332 Blackbird Ln,Sacramento,CA,95831,2,2,"387,200",296560,5/8/15,,NA,6054,SingleFamily
+,3807 32nd Ave,,,,,,,,,,,,

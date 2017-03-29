@@ -19,7 +19,6 @@ const PDFDOC = require('pdfkit');
 doc = new PDFDOC;
 
 
-
 module.exports = {
 
 
@@ -45,8 +44,6 @@ module.exports = {
 
                     if(typeof json['SearchResults:searchresults']["response"] != 'undefined'){
                       Zillowdata = json['SearchResults:searchresults']["response"]["results"]["result"]
-
-
 
                     //for every data object which calls this function
                     //push it into ZMD
@@ -105,42 +102,92 @@ CreateCSV(req,res,next){
 const Zillowdata = req.body
 console.log(req);
 console.log(Zillowdata)
-/*  const ZMD = [
-    {
-      propertyID:Zillowdata.zpid || "NA",
-      Address:Zillowdata.address.street || "NA",
-      City: Zillowdata.address.city || "NA",
-      State: Zillowdata.address.state || "NA",
-      ZipCode:  Zillowdata.address.zipcode || "NA",
-      Room: Zillowdata.bedrooms || "NA",
-      Bath: Zillowdata.bathrooms || "NA",
-      AskingPrice: Zillowdata.localRealEstate.region.zindexValue || "NA",
-      MarketValue: Zillowdata.zestimate.amount['$t'] || "NA",
-      LastSoldDate: lastSoldDate,
-      LastSoldAmount: lastSoldAmount,
-      YearBuilt: Zillowdata.yearBuilt || "NA",
-      SqFootage:Zillowdata.lotSizeSqFt || "NA",
-      UseCode: Zillowdata.useCode || "NA"
-    }
-  ]*/
 
 
   const myFields = [
-    "propertyID",
-    "Address",
-    "City",
-    "State",
-    "ZipCode",
-    "Room",
-    "Bath",
-    "AskingPrice",
-    "MarketValue",
-    "LastSoldDate",
-    "LastSoldAmount",
-    "YearBuilt",
-    "SqFootage",
-    "UseCode"
+    {label:"propertyID",
+    value:data.zillowHomes.propertyID,
+    default:''
+    },
+    {label: "Address",
+    value:data.zillowHomes.Address,
+    default:""},
+    {label:"City",
+    value:data.zillowHomes.City,
+    default:""
+  },
+  {
+    label: "State",
+    value:data.zillowHomes.State,
+    default:""
+  } ,
+    {
+      label:"ZipCode",
+      value:data.zillowHomes.ZipCode,
+      default:""
+    },
+    {label:  "Room",
+    value:data.zillowHomes.Room,
+    default:""
+  }
+  ,
+  {label:"Bath",
+value:data.zillowHomes.Bath,
+default:""
+}
+    ,
+    {label:  "AskingPrice",
+  value:data.zillowHomes.AskingPrice,
+  default:""
+},
+{label: "MarketValue",
+value:data.zillowHomes.MarketValue,
+default:""
+},
+{label:  "LastSoldDate",
+value:data.zillowHomes.LastSoldDate,
+default:""
+}  ,
+  {label:  "LastSoldAmount",
+  value:data.zillowHomes.LastSoldAmount,
+  default:""
+  }
+  ,
+   {label: "YearBuilt",
+    value:data.zillowHomes.YearBuilt,
+    default:""
+  },
+  {label:"SqFootage",
+   value:data.zillowHomes.SqFootage,
+   default:""
+ }
+  ,
+  {label:  "UseCode",
+   value:data.zillowHomes. UseCode,
+   default:""
+ }  ,
+ {label: "Median Value",
+  value:data.zillowMedian.medianMValue,
+  default:""
+}  ,
+{label: "Median Sold",
+ value:data.zillowMedian.medianSold,
+ default:""
+},
+
+{label: "Median Year Of Construction",
+ value:data.zillowMedian.medianYOC,
+ default:""
+},
+
+{label: "Median SqFootage",
+ value:data.zillowMedian.medianSqFootage,
+ default:""
+}
+
   ]
+
+
 
 
   const currTime = Date.now();
@@ -156,6 +203,8 @@ res.send({
 })
 
 }
+
+
 
 
 }

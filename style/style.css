@@ -158,3 +158,6 @@ text-align: center;
 margin-top: 15px;
 padding: .5em 0px;
 }
+.save-csv-btn:hover{
+  cursor: pointer;
+}

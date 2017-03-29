@@ -13,9 +13,11 @@ import '../style/style.css';
 const App = () => {
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 const token = localStorage.getItem('token')
+
 if(token){
   store.dispatch({type:AUTH_USER})
 }
+
   return (
     <Provider store={store}>
       <Routes />

@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import {fetchZillowHome,createZHS,zhs_to_csv} from '../../actions';
+import {fetchZillowHome,createZHS,zhs_to_csv,zhs_add_median} from '../../actions';
 import StatesData from './states.json';
 import  _ from 'lodash'
 import PropertyGrid from '../Investing/DataTable';
-import { FETCH_ZILLOW_HOME, CREATE_ZILLOW_HOME_SEARCH,ZHS_TO_CSV} from '../../actions/types';
+import { FETCH_ZILLOW_HOME, CREATE_ZILLOW_HOME_SEARCH,ZHS_TO_CSV,ADD_MEDIAN_DATA} from '../../actions/types';
+
+const ZData = {
+  medianMValue:'',
+  medianSold:'',
+  medianSqFootage:'',
+  medianYOC:''
+};
 
 
 class ZHomeSearchForm extends Component {
@@ -13,18 +20,108 @@ class ZHomeSearchForm extends Component {
   handleFormSubmit({address, city, state}){
     console.log({address, city, state})
   this.props.createZHS({address, city, state});
+
+
+
   }
 
+  componentWillReceiveProps(nextProps){
+        if(typeof nextProps.Market.zillowHomes != 'undefined'){
+          const ZHSdata = nextProps.Market.zillowHomes
+          const ZHSL = ZHSdata.length
+          console.log(ZHSdata);
+          console.log(ZHSL);
+
+            const MarketValue = ()=>{
+            const mvmSum = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+
+            return parseInt(zhs1.MarketValue)+ parseInt(zhs2.MarketValue);
+                })
+
+                  console.log(mvmSum)
+                  const mvm =  mvmSum/ZHSL;
+                  console.log(mvm);
+                  ZData.medianMValue = mvm
+
+              }
+              MarketValue();
+
+            const SoldPrice = ()=>{
+              const spSum = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+                return parseInt(zhs1.LastSoldAmount) + parseInt(zhs2.LastSoldAmount);
+              })
+
+              console.log(spSum)
+              const spm =  spSum/ZHSL;
+              console.log(spm);
+              ZData.medianSold = spm;
+
+
+            }
+          SoldPrice();
+
+            const SqFootage = ()=>{
+              const sfsum  = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+                return parseInt(zhs1.SqFootage)+ parseInt(zhs2.SqFootage);
+              })
+
+              console.log(sfsum)
+              const sfm =  sfsum/ZHSL;
+              console.log(sfm);
+              ZData.medianYOC = sfm;
+
+            }
+          SqFootage();
+
+
+            const YOC = ()=>{
+              const YOCSum = _.reduce(ZHSdata, (zhs1,zhs2)=>{
+                return parseInt(zhs1.YearBuilt)+ parseInt(zhs2.YearBuilt);
+              })
+
+              console.log(YOCSum)
+              const yocm =  YOCSum/ZHSL;
+              console.log(yocm);
+
+            ZData.medianYOC = yocm;
+
+            }
+
+          YOC();
+
+          console.log(this.props.Market.zillowMedian);
+
+          }
+
+
+
+
+  }
+
+
+
+
+
   handleSaveCSV(){
-    this.props.zhs_to_csv(this.props.Market.zillowHomes);
+    const zhData = {
+      median: this.props.Market.zillowMedian,
+      zhs: this.props.Market.zillowHomes
+    }
+    this.props.zhs_to_csv(zhData);
 
   }
   renderCSVBtn(){
-    if(this.props.Market.zillowHomes.length>0){
-        return (  <div className="save-csv-btn" onClick={this.handleSaveCSV.bind(this)}>Save To CSV</div>)
+    if(typeof this.props.Market.zillowHomes !== 'undefined'){
+        if(this.props.Market.zillowHomes.length>0){
+            return (  <div className="save-csv-btn" onClick={this.handleSaveCSV.bind(this)}>Save To CSV</div>)
+        }
     }
 
+
   }
+
+
+
   componentWillUpdate(){
     console.log(this.props.Market)
 
@@ -122,7 +219,7 @@ ZHomeSearchForm = reduxForm({
   validate,
   })(ZHomeSearchForm);
 
-ZHomeSearchForm = connect(mapStateToProps, {createZHS,zhs_to_csv} )(ZHomeSearchForm);
+ZHomeSearchForm = connect(mapStateToProps, {createZHS,zhs_to_csv,zhs_add_median} )(ZHomeSearchForm);
 
 
 export default  ZHomeSearchForm ;

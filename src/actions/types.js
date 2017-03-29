@@ -12,3 +12,5 @@ export const CREATE_ZILLOW_HOME_SEARCH = 'zillow_home_search';
 export const CREATE_ZILLOW_HOME_SEARCH_ERROR = 'zillow_home_search_error';
 export const REMOVE_ZHS_ROW = 'remove_zhs_row';
 export const ZHS_TO_CSV ='zhs_to_csv';
+export const ADD_MEDIAN_DATA = 'add_median_data';
+export const REMOVE_MEDIAN_DATA = 'remove_median_data';
