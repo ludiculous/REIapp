@@ -16,6 +16,7 @@ const request = require('request');
 const json2csv = require('json2csv');
 const blobStream = require('blob-stream');
 const PDFDOC = require('pdfkit');
+
 doc = new PDFDOC;
 
 
@@ -104,93 +105,24 @@ console.log(req);
 console.log(Zillowdata)
 
   const myFields = [
-    {label:"propertyID",
-    value:this.data.zhs.propertyID,
-    default:''
-    },
-    {label: "Address",
-    value:this.data.zhs.Address,
-    default:""},
-    {label:"City",
-    value:this.data.zhs.City,
-    default:""
-  },
-  {
-    label: "State",
-    value:data.zhs.State,
-    default:""
-  } ,
-    {
-      label:"ZipCode",
-      value:data.zhs.ZipCode,
-      default:""
-    },
-    {label:  "Room",
-    value:data.zhs.Room,
-    default:""
-  }
-  ,
-  {label:"Bath",
-value:data.zhs.Bath,
-default:""
-}
-    ,
-    {label:  "AskingPrice",
-  value:data.zhs.AskingPrice,
-  default:""
-},
-{label: "MarketValue",
-value:data.zhs.MarketValue,
-default:""
-},
-{label:  "LastSoldDate",
-value:data.zhs.LastSoldDate,
-default:""
-}  ,
-  {label:  "LastSoldAmount",
-  value:data.zhs.LastSoldAmount,
-  default:""
-  }
-  ,
-   {label: "YearBuilt",
-    value:data.zhs.YearBuilt,
-    default:""
-  },
-  {label:"SqFootage",
-   value:data.zhs.SqFootage,
-   default:""
- }
-  ,
-  {label:  "UseCode",
-   value:data.zhs.UseCode,
-   default:""
- }  ,
- {label: "Median Value",
-  value:data.median.medianMValue,
-  default:""
-}  ,
-{label: "Median Sold",
- value:data.median.medianSold,
- default:""
-},
-
-{label: "Median Year Of Construction",
- value: data.median.medianYOC,
- default:""
-},
-
-{label: "Median SqFootage",
- value: data.median.medianSqFootage,
- default:""
-}
-
-  ]
-
-
+    "propertyID",
+    "Address",
+    "State",
+    "ZipCode",
+    "Room",
+    "Bath",
+    "AskingPrice",
+    "MarketValue",
+    "LastSoldDate",
+    "LastSoldAmount",
+    "YearBuilt",
+    "SqFootage",
+    "UseCode"
+]
 
 
   const currTime = Date.now();
-  const csv = json2csv({ data: Zillowdata, fields: myFields });
+  const csv = json2csv({ data: Zillowdata.zhs, fields: myFields });
 
   fs.writeFile(`csv/ZMD${currTime}.csv`, csv, function(err) {
     if (err) throw err;
