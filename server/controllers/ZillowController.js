@@ -103,85 +103,84 @@ const Zillowdata = req.body
 console.log(req);
 console.log(Zillowdata)
 
-
   const myFields = [
     {label:"propertyID",
-    value:data.zillowHomes.propertyID,
+    value:this.data.zhs.propertyID,
     default:''
     },
     {label: "Address",
-    value:data.zillowHomes.Address,
+    value:this.data.zhs.Address,
     default:""},
     {label:"City",
-    value:data.zillowHomes.City,
+    value:this.data.zhs.City,
     default:""
   },
   {
     label: "State",
-    value:data.zillowHomes.State,
+    value:data.zhs.State,
     default:""
   } ,
     {
       label:"ZipCode",
-      value:data.zillowHomes.ZipCode,
+      value:data.zhs.ZipCode,
       default:""
     },
     {label:  "Room",
-    value:data.zillowHomes.Room,
+    value:data.zhs.Room,
     default:""
   }
   ,
   {label:"Bath",
-value:data.zillowHomes.Bath,
+value:data.zhs.Bath,
 default:""
 }
     ,
     {label:  "AskingPrice",
-  value:data.zillowHomes.AskingPrice,
+  value:data.zhs.AskingPrice,
   default:""
 },
 {label: "MarketValue",
-value:data.zillowHomes.MarketValue,
+value:data.zhs.MarketValue,
 default:""
 },
 {label:  "LastSoldDate",
-value:data.zillowHomes.LastSoldDate,
+value:data.zhs.LastSoldDate,
 default:""
 }  ,
   {label:  "LastSoldAmount",
-  value:data.zillowHomes.LastSoldAmount,
+  value:data.zhs.LastSoldAmount,
   default:""
   }
   ,
    {label: "YearBuilt",
-    value:data.zillowHomes.YearBuilt,
+    value:data.zhs.YearBuilt,
     default:""
   },
   {label:"SqFootage",
-   value:data.zillowHomes.SqFootage,
+   value:data.zhs.SqFootage,
    default:""
  }
   ,
   {label:  "UseCode",
-   value:data.zillowHomes. UseCode,
+   value:data.zhs.UseCode,
    default:""
  }  ,
  {label: "Median Value",
-  value:data.zillowMedian.medianMValue,
+  value:data.median.medianMValue,
   default:""
 }  ,
 {label: "Median Sold",
- value:data.zillowMedian.medianSold,
+ value:data.median.medianSold,
  default:""
 },
 
 {label: "Median Year Of Construction",
- value:data.zillowMedian.medianYOC,
+ value: data.median.medianYOC,
  default:""
 },
 
 {label: "Median SqFootage",
- value:data.zillowMedian.medianSqFootage,
+ value: data.median.medianSqFootage,
  default:""
 }
 
@@ -195,6 +194,7 @@ default:""
 
   fs.writeFile(`csv/ZMD${currTime}.csv`, csv, function(err) {
     if (err) throw err;
+    console.log(err);
     console.log('file saved');
   });
 

@@ -19,9 +19,11 @@ class ZHomeSearchForm extends Component {
 
   handleFormSubmit({address, city, state}){
     console.log({address, city, state})
+    console.log(ZData)
   this.props.createZHS({address, city, state});
-
-
+    if(ZData.medianMValue != ''){
+      this.props.zhs_add_median(ZData)
+    }
 
   }
 
@@ -55,7 +57,6 @@ class ZHomeSearchForm extends Component {
               const spm =  spSum/ZHSL;
               console.log(spm);
               ZData.medianSold = spm;
-
 
             }
           SoldPrice();
@@ -92,9 +93,6 @@ class ZHomeSearchForm extends Component {
           console.log(this.props.Market.zillowMedian);
 
           }
-
-
-
 
   }
 
