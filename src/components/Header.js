@@ -47,12 +47,7 @@ handleAuthenticate(){
                   Market Analysis
                   </Link>
                 </li>
-                <li>
-                  <Link to={'/RECalc'}>
-                  Real Estate Calculator
-                  </Link>
-                </li>
-
+          
                 {this.renderAuthButton()}
 
               </ul>

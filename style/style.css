@@ -161,3 +161,7 @@ padding: .5em 0px;
 .save-csv-btn:hover{
   cursor: pointer;
 }
+.detail-paragraph{
+  font-size: 16px;
+    line-height: 2;
+}
